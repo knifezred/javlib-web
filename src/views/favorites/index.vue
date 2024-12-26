@@ -1,103 +1,20 @@
-<template>
-  <NFlex>
-    <n-tabs
-      :value="currentTab"
-      v-on:update:value="handleSearch"
-      justify-content="space-evenly"
-      type="card"
-      animated>
-      <n-tab-pane name="movie" :tab="$t('page.favorites.movie') + '（' + favCount.movie + '）'">
-        <n-empty v-if="favCount.movie == 0" size="large" class="ma-auto" description="什么也没有">
-          <template #icon>
-            <n-icon>
-              <SvgIcon icon="solar:hand-heart-bold-duotone" />
-            </n-icon>
-          </template>
-        </n-empty>
-        <NSpace class="ma-4">
-          <MovieCard
-            v-for="movie in favoritesData.movie"
-            :key="movie.file"
-            :movie="movie"
-            sort="score"></MovieCard>
-        </NSpace>
-      </n-tab-pane>
-      <n-tab-pane
-        name="actress"
-        :tab="$t('route.category_actress') + '（' + favCount.actress + '）'">
-        <n-empty v-if="favCount.actress == 0" size="large" class="ma-auto" description="什么也没有">
-          <template #icon>
-            <n-icon>
-              <SvgIcon icon="solar:hand-heart-bold-duotone" />
-            </n-icon>
-          </template>
-        </n-empty>
-        <NSpace class="ma-4">
-          <ActressCard
-            v-for="actress in favoritesData.actress"
-            :key="actress.name"
-            :show-second-title="true"
-            :actress="actress"
-            sort="score"></ActressCard>
-        </NSpace>
-      </n-tab-pane>
-      <n-tab-pane name="studio" :tab="$t('route.category_studio') + '（' + favCount.studio + '）'">
-        <n-empty v-if="favCount.studio == 0" size="large" class="ma-auto" description="什么也没有">
-          <template #icon>
-            <n-icon>
-              <SvgIcon icon="solar:hand-heart-bold-duotone" />
-            </n-icon>
-          </template>
-        </n-empty>
-        <NSpace>
-          <FavoriteCardGroup
-            :keys="favoritesData.studio"
-            storage-key="favorite_studio"
-            type="studio" />
-        </NSpace>
-      </n-tab-pane>
-      <n-tab-pane name="series" :tab="$t('route.category_series') + '（' + favCount.series + '）'">
-        <n-empty v-if="favCount.series == 0" size="large" class="ma-auto" description="什么也没有">
-          <template #icon>
-            <n-icon>
-              <SvgIcon icon="solar:hand-heart-bold-duotone" />
-            </n-icon>
-          </template>
-        </n-empty>
-        <NSpace>
-          <FavoriteCardGroup
-            :keys="favoritesData.series"
-            storage-key="favorite_series"
-            type="series" />
-        </NSpace>
-      </n-tab-pane>
-    </n-tabs>
-
-    <n-pagination
-      v-if="showPagination"
-      v-model:page="searchData.page"
-      v-model:page-size="searchData.pageSize"
-      :page-count="pageCount"
-      show-size-picker
-      :page-sizes="pageSizeOptions"
-      @update-page="handleSearch(currentTab)"
-      @update-page-size="handleSearch(currentTab)" />
-  </NFlex>
-</template>
-
 <script setup lang="ts">
-import ActressCard from '@renderer/components/custom/card/actress-card.vue'
-import FavoriteCardGroup from '@renderer/components/custom/card/favorite-card-group.vue'
-import MovieCard from '@renderer/components/custom/card/movie-card.vue'
-import { pageSizeOptions } from '@renderer/constants/library'
-import { fetchActressPagedList, getFavoritesActressCount } from '@renderer/service/api/actress'
-import { fetchMoviePagedList, getFavoriteMoviesCount } from '@renderer/service/api/movie'
-import { findStorage } from '@renderer/service/api/storage'
-import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref } from 'vue'
+import ActressCard from '@/components/custom/card/actress-card.vue'
+import FavoriteCardGroup from '@/components/custom/card/favorite-card-group.vue'
+import MovieCard from '@/components/custom/card/movie-card.vue'
+import { pageSizeOptions } from '@/constants/library'
+import {
+  fetchActressPagedList,
+  fetchMoviePagedList,
+  findStorage,
+  getFavoriteMoviesCount,
+  getFavoritesActressCount
+} from '@/service/api'
+import { useAppStore } from '@/store/modules/app'
 
 defineOptions({
-  name: 'Favorites'
+  name: 'FavoritesPage'
 })
 const appStore = useAppStore()
 const favCount = ref({
@@ -131,8 +48,8 @@ function handleSearch(tab: string) {
   switch (currentTab.value) {
     case 'movie':
       showPagination.value = true
-      fetchMoviePagedList(searchData.value).then((res) => {
-        if (res.data != null) {
+      fetchMoviePagedList(searchData.value).then(res => {
+        if (res.data !== null) {
           favoritesData.value.movie = res.data.records
           favCount.value.movie = res.data.total
           pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
@@ -144,8 +61,8 @@ function handleSearch(tab: string) {
       })
       break
     case 'actress':
-      fetchActressPagedList(searchData.value).then((res) => {
-        if (res.data != null) {
+      fetchActressPagedList(searchData.value).then(res => {
+        if (res.data !== null) {
           favoritesData.value.actress = res.data.records
           favCount.value.actress = res.data.total
           pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
@@ -162,28 +79,28 @@ function handleSearch(tab: string) {
   }
 }
 onMounted(() => {
-  var cacheSearch = appStore.getCacheSearchData()
+  const cacheSearch = appStore.getCacheSearchData()
   if (cacheSearch) {
     currentTab.value = cacheSearch.data.currentTab
     searchData.value = cacheSearch.data.searchData
   }
   handleSearch(currentTab.value)
 
-  getFavoriteMoviesCount().then((res) => {
+  getFavoriteMoviesCount().then(res => {
     if (res.data) {
       favCount.value.movie = res.data
     } else {
       favCount.value.movie = 0
     }
   })
-  getFavoritesActressCount().then((res) => {
+  getFavoritesActressCount().then(res => {
     if (res.data) {
       favCount.value.actress = res.data
     } else {
       favCount.value.actress = 0
     }
   })
-  findStorage('favorite_series').then((res) => {
+  findStorage('favorite_series').then(res => {
     if (res.data) {
       favoritesData.value.series = res.data.value.split('|')
       favCount.value.series = favoritesData.value.series.length
@@ -192,7 +109,7 @@ onMounted(() => {
       favCount.value.series = 0
     }
   })
-  findStorage('favorite_studio').then((res) => {
+  findStorage('favorite_studio').then(res => {
     if (res.data) {
       favoritesData.value.studio = res.data.value.split('|')
       favCount.value.studio = favoritesData.value.studio.length
@@ -203,5 +120,80 @@ onMounted(() => {
   })
 })
 </script>
+
+<template>
+  <NFlex>
+    <NTabs :value="currentTab" justify-content="space-evenly" type="card" animated @update:value="handleSearch">
+      <NTabPane name="movie" :tab="$t('page.favorites.movie') + '（' + favCount.movie + '）'">
+        <NEmpty v-if="favCount.movie == 0" size="large" class="ma-auto" description="什么也没有">
+          <template #icon>
+            <NIcon>
+              <SvgIcon icon="solar:hand-heart-bold-duotone" />
+            </NIcon>
+          </template>
+        </NEmpty>
+        <NSpace class="ma-4">
+          <MovieCard
+            v-for="movie in favoritesData.movie"
+            :key="movie.file"
+            :movie="movie"
+            :show-second-title="false"
+            sort="score"></MovieCard>
+        </NSpace>
+      </NTabPane>
+      <NTabPane name="actress" :tab="$t('route.category_actress') + '（' + favCount.actress + '）'">
+        <NEmpty v-if="favCount.actress == 0" size="large" class="ma-auto" description="什么也没有">
+          <template #icon>
+            <NIcon>
+              <SvgIcon icon="solar:hand-heart-bold-duotone" />
+            </NIcon>
+          </template>
+        </NEmpty>
+        <NSpace class="ma-4">
+          <ActressCard
+            v-for="actress in favoritesData.actress"
+            :key="actress.name"
+            :show-second-title="true"
+            :actress="actress"
+            sort="score"></ActressCard>
+        </NSpace>
+      </NTabPane>
+      <NTabPane name="studio" :tab="$t('route.category_studio') + '（' + favCount.studio + '）'">
+        <NEmpty v-if="favCount.studio == 0" size="large" class="ma-auto" description="什么也没有">
+          <template #icon>
+            <NIcon>
+              <SvgIcon icon="solar:hand-heart-bold-duotone" />
+            </NIcon>
+          </template>
+        </NEmpty>
+        <NSpace>
+          <FavoriteCardGroup :keys="favoritesData.studio" storage-key="favorite_studio" type="studio" />
+        </NSpace>
+      </NTabPane>
+      <NTabPane name="series" :tab="$t('route.category_series') + '（' + favCount.series + '）'">
+        <NEmpty v-if="favCount.series == 0" size="large" class="ma-auto" description="什么也没有">
+          <template #icon>
+            <NIcon>
+              <SvgIcon icon="solar:hand-heart-bold-duotone" />
+            </NIcon>
+          </template>
+        </NEmpty>
+        <NSpace>
+          <FavoriteCardGroup :keys="favoritesData.series" storage-key="favorite_series" type="series" />
+        </NSpace>
+      </NTabPane>
+    </NTabs>
+
+    <NPagination
+      v-if="showPagination"
+      v-model:page="searchData.page"
+      v-model:page-size="searchData.pageSize"
+      :page-count="pageCount"
+      show-size-picker
+      :page-sizes="pageSizeOptions"
+      @update-page="handleSearch(currentTab)"
+      @update-page-size="handleSearch(currentTab)" />
+  </NFlex>
+</template>
 
 <style scoped></style>

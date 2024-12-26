@@ -1,33 +1,8 @@
-<template>
-  <NSpace>
-    <div
-      v-for="info in categories"
-      :key="info.id"
-      class="relative w-auto rd-md text-center text-lg transition-transform duration-300 hover:transform-translate-y--2"
-      hoverable>
-      <n-text
-        :depth="3"
-        class="cursor-pointer color-warning-200 border-b-primary border-b-style-solid border-b-2"
-        @click="showDetail(info)">
-        {{ info.key }}
-      </n-text>
-      <n-button text class="font-size-4 ml-2" @click="setFavorite(info)">
-        <n-icon>
-          <SvgIcon
-            class="inline-flex"
-            :icon="
-              info.favorite ? 'fluent-emoji-flat:heart-suit' : 'fluent-emoji-flat:grey-heart'
-            "></SvgIcon>
-        </n-icon>
-      </n-button>
-    </div>
-  </NSpace>
-</template>
 <script lang="ts" setup>
-import { useRouterPush } from '@renderer/hooks/common/router'
-import { $t } from '@renderer/locales'
-import { fetchCategoryPagedList, updateCategory } from '@renderer/service/api/category'
 import { onMounted, ref, watch } from 'vue'
+import { $t } from '@/locales'
+import { fetchCategoryPagedList, updateCategory } from '@/service/api'
+import { useRouterPush } from '@/hooks/common/router'
 
 defineOptions({
   name: 'CategoryCardGroup'
@@ -42,11 +17,9 @@ const props = defineProps<Props>()
 const categories = ref<Array<Dto.DbCategory>>([])
 function setFavorite(category: Dto.DbCategory) {
   category.favorite = !category.favorite
-  updateCategory(category).then((res) => {
+  updateCategory(category).then(res => {
     if (res.data) {
-      window.$message?.success(
-        category.favorite ? $t('common.addFavorite') : $t('common.removeFavorite')
-      )
+      window.$message?.success(category.favorite ? $t('common.addFavorite') : $t('common.removeFavorite'))
     }
   })
 }
@@ -74,7 +47,7 @@ function handleSearch() {
       pageSize: 10,
       sort: 'key',
       sortRule: 'ASC'
-    }).then((res) => {
+    }).then(res => {
       if (res.data) {
         categories.value = res.data.records
       } else {
@@ -87,3 +60,27 @@ onMounted(() => {
   handleSearch()
 })
 </script>
+
+<template>
+  <NSpace>
+    <div
+      v-for="info in categories"
+      :key="info.id"
+      class="relative w-auto rd-md text-center transition-transform duration-300 hover:transform-translate-y--2"
+      hoverable>
+      <NText
+        :depth="3"
+        class="cursor-pointer border-b-2 border-b-primary border-b-style-solid color-warning-200"
+        @click="showDetail(info)">
+        {{ info.key }}
+      </NText>
+      <NButton text class="ml-2 font-size-4" @click="setFavorite(info)">
+        <NIcon>
+          <SvgIcon
+            class="inline-flex"
+            :icon="info.favorite ? 'fluent-emoji-flat:heart-suit' : 'fluent-emoji-flat:grey-heart'"></SvgIcon>
+        </NIcon>
+      </NButton>
+    </div>
+  </NSpace>
+</template>

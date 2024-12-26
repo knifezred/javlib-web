@@ -119,7 +119,7 @@ onMounted(() => {
 <template>
   <NFlex vertical>
     <NCard :bordered="false" class="relative z-4 w-auto rd-12px">
-      <NCollapse :default-expanded-names="['1']">
+      <NCollapse :default-expanded-names="[]">
         <NCollapseItem :title="$t('common.search')" name="1">
           <NForm label-placement="left" :label-width="70" require-mark-placement="right-hanging" size="small">
             <NFormItem :label="$t('page.library.type')" class="hidden h-10">
@@ -212,8 +212,21 @@ onMounted(() => {
         </NCollapseItem>
       </NCollapse>
     </NCard>
-    <NSpace>
-      <MovieCard v-for="movie in movieData" :key="movie.id" :movie="movie" :sort="searchData.sort"></MovieCard>
+
+    <!--
+    <NGrid x-gap="12" y-gap="8" :cols="3">
+ <NGi v-for="movie in movieData" :key="movie.id">
+        <MovieCard :movie="movie" :show-second-title="true" :sort="searchData.sort"></MovieCard>
+      </NGi>
+    </NGrid>
+-->
+    <NSpace justify="center">
+      <MovieCard
+        v-for="movie in movieData"
+        :key="movie.id"
+        :movie="movie"
+        :show-second-title="true"
+        :sort="searchData.sort"></MovieCard>
     </NSpace>
     <NPagination
       v-model:page="searchData.page"

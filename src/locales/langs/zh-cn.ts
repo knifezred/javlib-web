@@ -54,7 +54,9 @@ const local: App.I18n.Schema = {
     },
     addFavorite: '加入收藏',
     removeFavorite: '移出收藏',
-    sort: '排序'
+    sort: '排序',
+    saveSuccess: '保存成功',
+    backToList: '返回列表'
   },
   request: {
     logout: '请求失败后登出用户',
@@ -231,9 +233,9 @@ const local: App.I18n.Schema = {
       downloadCount: '下载量',
       registerCount: '注册量',
       entertainment: '娱乐',
-      tagCount: '标签数',
-      friendCount: '演员数',
-      movieCount: '影片数',
+      favoriteCount: '收藏影片',
+      friendCount: '演员数量',
+      movieCount: '影片数量',
       diskSpace: '硬盘空间'
     },
     admin: {
@@ -380,6 +382,9 @@ const local: App.I18n.Schema = {
       introduction: '简介',
       name: '姓名',
       updateActress: '更新演员库'
+    },
+    favorites: {
+      movie: '影片'
     }
   },
   form: {

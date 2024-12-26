@@ -1,34 +1,9 @@
-<template>
-  <NFlex vertical>
-    <n-page-header @back="routerBack">
-      <NSpace>
-        <MovieCard
-          v-for="movie in movies"
-          :key="movie.id"
-          :movie="movie"
-          :sort="searchData.sort"></MovieCard>
-      </NSpace>
-      <template #title> {{ pageTitle }}（{{ totalCount }}） </template>
-      <template #footer>
-        <n-pagination
-          v-model:page="searchData.page"
-          v-model:page-size="searchData.pageSize"
-          :page-count="pageCount"
-          show-size-picker
-          :page-sizes="pageSizeOptions"
-          @update-page="handleSearch"
-          @update-page-size="handleSearch" />
-      </template>
-    </n-page-header>
-  </NFlex>
-</template>
-
 <script setup lang="ts">
-import { pageSizeOptions } from '@renderer/constants/library'
-import { useRouterPush } from '@renderer/hooks/common/router'
-import { fetchMoviePagedList } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { pageSizeOptions } from '@/constants/library'
+import { useRouterPush } from '@/hooks/common/router'
+import { fetchMoviePagedList } from '@/service/api'
 
 defineOptions({
   name: 'MovieListPage'
@@ -55,7 +30,7 @@ function handleSearch() {
     pageTitle.value = searchData.value.series
   }
   if (route.query.type && route.query.key) {
-    if (route.query.type == 'tag') {
+    if (route.query.type === 'tag') {
       searchData.value.tags = [route.query.key as string]
       pageTitle.value = searchData.value.tags[0]
     }
@@ -64,7 +39,7 @@ function handleSearch() {
     searchData.value.actress = route.query.actress as string
     pageTitle.value = searchData.value.actress
   }
-  fetchMoviePagedList(searchData.value).then((res) => {
+  fetchMoviePagedList(searchData.value).then(res => {
     if (res.data) {
       movies.value = res.data.records
       pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
@@ -80,5 +55,31 @@ onMounted(() => {
   handleSearch()
 })
 </script>
+
+<template>
+  <NFlex vertical>
+    <NPageHeader @back="routerBack">
+      <NSpace>
+        <MovieCard
+          v-for="movie in movies"
+          :key="movie.id"
+          :movie="movie"
+          :show-second-title="false"
+          :sort="searchData.sort"></MovieCard>
+      </NSpace>
+      <template #title>{{ pageTitle }}（{{ totalCount }}）</template>
+      <template #footer>
+        <NPagination
+          v-model:page="searchData.page"
+          v-model:page-size="searchData.pageSize"
+          :page-count="pageCount"
+          show-size-picker
+          :page-sizes="pageSizeOptions"
+          @update-page="handleSearch"
+          @update-page-size="handleSearch" />
+      </template>
+    </NPageHeader>
+  </NFlex>
+</template>
 
 <style scoped></style>

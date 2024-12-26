@@ -44,7 +44,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
     mixChildMenuWidth: 200
   },
   footer: {
-    visible: true,
+    visible: false,
     fixed: false,
     height: 48,
     right: true
@@ -75,11 +75,11 @@ export const themeSettings: App.Theme.ThemeSetting = {
       }
     }
   }
-};
+}
 
 /**
  * Override theme settings
  *
  * If publish new version, use `overrideThemeSettings` to override certain theme settings
  */
-export const overrideThemeSettings: Partial<App.Theme.ThemeSetting> = {};
+export const overrideThemeSettings: Partial<App.Theme.ThemeSetting> = {}

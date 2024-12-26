@@ -336,6 +336,8 @@ declare namespace App {
           disable: string
         }
         sort: string
+        saveSuccess: string
+        backToList: string
       }
       request: {
         logout: string
@@ -457,7 +459,7 @@ declare namespace App {
           downloadCount: string
           registerCount: string
           entertainment: string
-          tagCount: string
+          favoriteCount: string
           friendCount: string
           movieCount: string
           diskSpace: string
@@ -606,6 +608,9 @@ declare namespace App {
               local: string
             }
           }
+        }
+        favorites: {
+          movie: string
         }
       }
       form: {

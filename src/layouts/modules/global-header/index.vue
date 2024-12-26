@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import { useAppStore } from '@/store/modules/app';
-import { useThemeStore } from '@/store/modules/theme';
-import { GLOBAL_HEADER_MENU_ID } from '@/constants/app';
-import GlobalLogo from '../global-logo/index.vue';
-import GlobalBreadcrumb from '../global-breadcrumb/index.vue';
-import ThemeButton from './components/theme-button.vue';
-import UserAvatar from './components/user-avatar.vue';
+import { useAppStore } from '@/store/modules/app'
+import { useThemeStore } from '@/store/modules/theme'
+import { GLOBAL_HEADER_MENU_ID } from '@/constants/app'
+import GlobalLogo from '../global-logo/index.vue'
+import GlobalBreadcrumb from '../global-breadcrumb/index.vue'
+import ThemeButton from './components/theme-button.vue'
+import UserAvatar from './components/user-avatar.vue'
 
 defineOptions({
   name: 'GlobalHeader'
-});
+})
 
 interface Props {
   /** Whether to show the logo */
-  showLogo?: App.Global.HeaderProps['showLogo'];
+  showLogo?: App.Global.HeaderProps['showLogo']
   /** Whether to show the menu toggler */
-  showMenuToggler?: App.Global.HeaderProps['showMenuToggler'];
+  showMenuToggler?: App.Global.HeaderProps['showMenuToggler']
   /** Whether to show the menu */
-  showMenu?: App.Global.HeaderProps['showMenu'];
+  showMenu?: App.Global.HeaderProps['showMenu']
 }
 
-defineProps<Props>();
+defineProps<Props>()
 
-const appStore = useAppStore();
-const themeStore = useThemeStore();
+const appStore = useAppStore()
+const themeStore = useThemeStore()
 </script>
 
 <template>
@@ -35,14 +35,17 @@ const themeStore = useThemeStore();
       <GlobalBreadcrumb v-if="!appStore.isMobile" class="ml-12px" />
     </div>
     <div class="h-full flex-y-center justify-end">
-      <LangSwitch :lang="appStore.locale" :lang-options="appStore.localeOptions" @change-lang="appStore.changeLocale" />
+      <LangSwitch
+        v-if="false"
+        :lang="appStore.locale"
+        :lang-options="appStore.localeOptions"
+        @change-lang="appStore.changeLocale" />
       <ThemeSchemaSwitch
         :theme-schema="themeStore.themeScheme"
         :is-dark="themeStore.darkMode"
-        @switch="themeStore.toggleThemeScheme"
-      />
-      <ThemeButton />
-      <UserAvatar />
+        @switch="themeStore.toggleThemeScheme" />
+      <ThemeButton v-if="false" />
+      <UserAvatar v-if="false" />
     </div>
   </DarkModeContainer>
 </template>

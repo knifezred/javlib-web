@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { watch } from 'vue';
-import { $t } from '@/locales';
-import { useAppStore } from '@/store/modules/app';
-import { useEcharts } from '@/hooks/common/echarts';
+import { useEcharts } from '@/hooks/common/echarts'
+import { fetchCategoryPagedList } from '@/service/api'
 
 defineOptions({
   name: 'PieChart'
-});
-
-const appStore = useAppStore();
+})
 
 const { domRef, updateOptions } = useEcharts(() => ({
   tooltip: {
     trigger: 'item'
   },
   legend: {
-    bottom: '1%',
+    bottom: '2%',
     left: 'center',
     itemStyle: {
       borderWidth: 0
@@ -23,15 +19,25 @@ const { domRef, updateOptions } = useEcharts(() => ({
   },
   series: [
     {
-      color: ['#5da8ff', '#8e9dff', '#fedc69', '#26deca'],
-      name: $t('page.home.schedule'),
+      color: [
+        '#5da8ff',
+        '#8e9dff',
+        '#fedc69',
+        '#26deca',
+        '#e599f7',
+        '#ff8787',
+        '#95de64',
+        '#20c997',
+        '#5cdbd3',
+        '#ffc078'
+      ],
       type: 'pie',
       radius: ['45%', '75%'],
       avoidLabelOverlap: false,
       itemStyle: {
         borderRadius: 10,
         borderColor: '#fff',
-        borderWidth: 1
+        borderWidth: 0
       },
       label: {
         show: false,
@@ -49,55 +55,37 @@ const { domRef, updateOptions } = useEcharts(() => ({
       data: [] as { name: string; value: number }[]
     }
   ]
-}));
-
-async function mockData() {
-  await new Promise(resolve => {
-    setTimeout(resolve, 1000);
-  });
-
-  updateOptions(opts => {
-    opts.series[0].data = [
-      { name: $t('page.home.study'), value: 20 },
-      { name: $t('page.home.entertainment'), value: 10 },
-      { name: $t('page.home.work'), value: 40 },
-      { name: $t('page.home.rest'), value: 30 }
-    ];
-
-    return opts;
-  });
-}
-
-function updateLocale() {
-  updateOptions((opts, factory) => {
-    const originOpts = factory();
-
-    opts.series[0].name = originOpts.series[0].name;
-
-    opts.series[0].data = [
-      { name: $t('page.home.study'), value: 20 },
-      { name: $t('page.home.entertainment'), value: 10 },
-      { name: $t('page.home.work'), value: 40 },
-      { name: $t('page.home.rest'), value: 30 }
-    ];
-
-    return opts;
-  });
-}
+}))
 
 async function init() {
-  mockData();
+  fetchCategoryPagedList({
+    type: 'tag',
+    sortRule: 'DESC',
+    sort: 'value',
+    page: 1,
+    pageSize: 7
+  }).then(res => {
+    if (res.data !== null) {
+      updateOptions(opts => {
+        opts.series[0].data = []
+        res.data.records.forEach(record => {
+          opts.series[0].data.push({ name: record.key, value: record.value })
+        })
+        return opts
+      })
+    }
+  })
 }
 
-watch(
-  () => appStore.locale,
-  () => {
-    updateLocale();
-  }
-);
+// watch(
+//   () => appStore.locale,
+//   () => {
+//     updateLocale()
+//   }
+// )
 
 // init
-init();
+init()
 </script>
 
 <template>

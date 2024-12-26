@@ -5,8 +5,6 @@ import { useAppStore } from '@/store/modules/app'
 import { fetchActressPagedList } from '@/service/api/index'
 import { $t } from '@/locales'
 import { bodySizeOptions, cupOptions, pageSizeOptions, sortRuleOptions } from '@/constants/library'
-import DetailDrawer from './module/detail-drawer.vue'
-
 defineOptions({
   name: 'ActressPage'
 })
@@ -94,14 +92,6 @@ function resetSearch() {
   handleSearch()
 }
 
-const active = ref(false)
-function openDrawer() {
-  active.value = true
-}
-function closeDrawer() {
-  active.value = false
-}
-
 onMounted(() => {
   const cacheSearch = appStore.getCacheSearchData()
   if (cacheSearch) {
@@ -114,9 +104,9 @@ onMounted(() => {
 <template>
   <NFlex vertical>
     <NCard :bordered="false" class="relative z-4 w-auto rd-12px">
-      <NCollapse :default-expanded-names="['1']">
+      <NCollapse :default-expanded-names="[]">
         <NCollapseItem :title="$t('common.search')" name="1">
-          <NForm label-placement="left" :label-width="85" require-mark-placement="right-hanging" size="small">
+          <NForm label-placement="left" :label-width="65" require-mark-placement="right-hanging" size="small">
             <NFormItem :label="$t('page.library.type')" class="hidden h-10">
               <NCheckboxGroup v-model:value="searchData.type">
                 <NSpace item-style="display: flex;" align="center">
@@ -137,13 +127,13 @@ onMounted(() => {
             </NFormItem>
             <NSpace item-style="display: flex;" align="center">
               <NFormItem :label="$t('page.actress.bodySize')">
-                <NSelect v-model:value="searchData.bodySize" :options="bodySizeOptions" clearable class="w-40" />
+                <NSelect v-model:value="searchData.bodySize" :options="bodySizeOptions" clearable class="w-28" />
               </NFormItem>
               <NFormItem>
                 <NSelect
                   v-model:value="searchData.cup"
                   :options="cupOptions"
-                  class="w-40"
+                  class="w-26"
                   :placeholder="$t('page.actress.cup')"
                   clearable />
               </NFormItem>
@@ -156,14 +146,14 @@ onMounted(() => {
                 <NSelect
                   v-model:value="searchData.sort"
                   :options="sortOptions"
-                  class="w-40"
+                  class="w-28"
                   @update:value="handleSearch" />
               </NFormItem>
               <NFormItem>
                 <NSelect
                   v-model:value="searchData.sortRule"
                   :options="sortRuleOptions"
-                  class="w-40"
+                  class="w-26"
                   @update:value="handleSearch" />
               </NFormItem>
               <NFormItem :label="$t('page.actress.face')">
@@ -189,11 +179,6 @@ onMounted(() => {
                   {{ $t('common.reset') }}
                 </NButton>
               </NFormItem>
-              <NFormItem>
-                <NButton type="primary" ghost @click="openDrawer">
-                  {{ $t('common.add') }}
-                </NButton>
-              </NFormItem>
             </NSpace>
           </NForm>
         </NCollapseItem>
@@ -215,11 +200,6 @@ onMounted(() => {
       :page-sizes="pageSizeOptions"
       @update-page="handleSearch"
       @update-page-size="handleSearch" />
-    <NDrawer v-model:show="active" width="70%" placement="right">
-      <NDrawerContent>
-        <DetailDrawer @close="closeDrawer"></DetailDrawer>
-      </NDrawerContent>
-    </NDrawer>
   </NFlex>
 </template>
 
