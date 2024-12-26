@@ -4,7 +4,6 @@ import { useAuthStore } from '@/store/modules/auth'
 import { $t } from '@/locales'
 import { localStg } from '@/utils/storage'
 import { getServiceBaseURL } from '@/utils/service'
-import { getToken } from '@/store/modules/auth/shared'
 import { handleRefreshToken, showErrorMsg } from './shared'
 import type { RequestInstanceState } from './type'
 
@@ -13,7 +12,7 @@ const { baseURL } = getServiceBaseURL(import.meta.env, isHttpProxy)
 
 export const request = createFlatRequest<App.Service.Response, RequestInstanceState>(
   {
-    baseURL: import.meta.env.DEV ? baseURL : `${getToken()}/api`,
+    baseURL,
     headers: {
       apifoxToken: 'XL299LiMEDZ0H5h3A29PxwQXdMJqWyY2'
     }
