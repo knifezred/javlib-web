@@ -17,7 +17,7 @@ interface FormModel {
 }
 
 const model: FormModel = reactive({
-  url: 'http://localhost:3000',
+  url: `${window.location.protocol}//${window.location.host}`,
   password: ''
 })
 

@@ -10,6 +10,7 @@ import { localStg } from '@/utils/storage'
 import { useRouteStore } from '../route'
 import { useTabStore } from '../tab'
 import { useThemeStore } from '../theme'
+import { getToken } from '../auth/shared'
 
 export const useAppStore = defineStore(SetupStoreId.App, () => {
   const themeStore = useThemeStore()
@@ -158,7 +159,7 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
     }
   }
 
-  const baseURL = ref(localStg.get('token'))
+  const baseURL = ref(getToken())
 
   function setBaseUrl(url: string) {
     baseURL.value = url
