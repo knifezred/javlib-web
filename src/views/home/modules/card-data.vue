@@ -49,7 +49,7 @@ const cardData = computed<CardData[]>(() => [
     icon: 'fluent-color:video-24'
   },
   {
-    key: 'favorites',
+    key: '/favorites',
     title: $t('page.home.favoriteCount'),
     value: totalFavoriteCount.value,
     unit: '',

@@ -158,9 +158,16 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
     }
   }
 
-  const { VITE_SERVICE_BASE_URL } = import.meta.env
+  const baseURL = ref(localStg.get('token'))
 
-  const baseURL = VITE_SERVICE_BASE_URL.replace('/api/', '')
+  function setBaseUrl(url: string) {
+    baseURL.value = url
+  }
+
+  function getBaseUrl() {
+    const { VITE_SERVICE_BASE_URL } = import.meta.env
+    return baseURL.value === null ? VITE_SERVICE_BASE_URL.replace('/api/', '') : baseURL.value
+  }
 
   return {
     isMobile,
@@ -184,6 +191,8 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
     toggleMixSiderFixed,
     getCacheSearchData,
     setCacheSearchData,
-    baseURL
+    baseURL,
+    setBaseUrl,
+    getBaseUrl
   }
 })

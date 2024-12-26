@@ -22,7 +22,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <NSpace>
+  <NSpace justify="center">
     <FavoriteCardGroup :keys="keys" storage-key="favorite_studio" type="studio" />
   </NSpace>
 </template>

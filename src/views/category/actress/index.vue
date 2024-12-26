@@ -184,7 +184,7 @@ onMounted(() => {
         </NCollapseItem>
       </NCollapse>
     </NCard>
-    <NSpace>
+    <NSpace justify="center">
       <ActressCard
         v-for="actress in actressData"
         :key="actress.id"

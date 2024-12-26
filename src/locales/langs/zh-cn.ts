@@ -193,7 +193,8 @@ const local: App.I18n.Schema = {
         back: '返回',
         validateSuccess: '验证成功',
         loginSuccess: '登录成功',
-        welcomeBack: '欢迎回来，{userName} ！'
+        welcomeBack: '欢迎回来，{userName} ！',
+        serverUrlPlaceholder: '请输入服务器地址'
       },
       pwdLogin: {
         title: '密码登录',
@@ -412,6 +413,10 @@ const local: App.I18n.Schema = {
     email: {
       required: '请输入邮箱',
       invalid: '邮箱格式不正确'
+    },
+    url: {
+      required: '请输入服务器地址',
+      invalid: '服务器地址格式不正确'
     }
   },
   dropdown: {

@@ -420,6 +420,7 @@ declare namespace App {
             validateSuccess: string
             loginSuccess: string
             welcomeBack: string
+            serverUrlPlaceholder: string
           }
           pwdLogin: {
             title: string
@@ -621,6 +622,7 @@ declare namespace App {
         confirmPwd: FormMsg
         code: FormMsg
         email: FormMsg
+        url: FormMsg
       }
       dropdown: Record<Global.DropdownKey, string>
       icon: {
