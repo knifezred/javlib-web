@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Player from 'xgplayer'
 import { useAppStore } from '@/store/modules/app'
@@ -29,29 +29,34 @@ function getFileName(filePath: string) {
   return lastIndex === -1 ? filePath : filePath.substring(lastIndex + 1)
 }
 
+const movieFiles = ref<Array<string>>([])
+
+watch(
+  () => route.query.file,
+  () => {
+    updateMovieFiles()
+  },
+  { immediate: true }
+)
+function updateMovieFiles() {
+  const movieFile = route.query.file as string
+  movieFiles.value = movieFile
+    .slice(1)
+    .split('|')
+    .filter(x => x.length > 0)
+}
 onMounted(() => {
-  if (route.query.file?.includes(',')) {
-    player.value = new Player({
-      id: 'mse',
-      url: (route.query.file as string).split(',')[0],
-      fluid: true,
-      autoplay: true,
-      playnext: {
-        urlList: (route.query.file as string).split(',').slice(1)
-      },
-      closeVideoDblclick: true
-    })
-    player.value.play()
-  } else {
-    player.value = new Player({
-      id: 'mse',
-      url: route.query.file as string,
-      fluid: true,
-      autoplay: true,
-      closeVideoDblclick: true
-    })
-    player.value.play()
-  }
+  updateMovieFiles()
+  player.value = new Player({
+    id: 'mse',
+    url: `${appStore.baseURL}/${movieFiles.value[0]}`,
+    fluid: true,
+    autoplay: true,
+    closeVideoDblclick: true
+  })
+})
+onUnmounted(() => {
+  player.value = undefined
 })
 </script>
 
@@ -60,7 +65,7 @@ onMounted(() => {
     <div id="mse"></div>
     <NSpace class="mt-2">
       <NTag
-        v-for="video in (route.query.file as string).split(',')"
+        v-for="video in (route.query.file as string).split('|').filter(x => x.length > 0)"
         :key="video"
         type="primary"
         class="cursor-pointer pa-4"

@@ -364,7 +364,7 @@ const local: App.I18n.Schema = {
       }
     },
     library: {
-      searchKey: '关键词',
+      searchKey: '名字',
       tags: '标签',
       type: '类型',
       updateLibrary: '更新媒体库',

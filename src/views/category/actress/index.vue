@@ -106,7 +106,7 @@ onMounted(() => {
     <NCard :bordered="false" class="relative z-4 w-auto rd-12px">
       <NCollapse :default-expanded-names="[]">
         <NCollapseItem :title="$t('common.search')" name="1">
-          <NForm label-placement="left" :label-width="65" require-mark-placement="right-hanging" size="small">
+          <NForm label-placement="left" :label-width="54" require-mark-placement="right-hanging" size="small">
             <NFormItem :label="$t('page.library.type')" class="hidden h-10">
               <NCheckboxGroup v-model:value="searchData.type">
                 <NSpace item-style="display: flex;" align="center">
@@ -127,13 +127,13 @@ onMounted(() => {
             </NFormItem>
             <NSpace item-style="display: flex;" align="center">
               <NFormItem :label="$t('page.actress.bodySize')">
-                <NSelect v-model:value="searchData.bodySize" :options="bodySizeOptions" clearable class="w-28" />
+                <NSelect v-model:value="searchData.bodySize" :options="bodySizeOptions" clearable class="w-26" />
               </NFormItem>
               <NFormItem>
                 <NSelect
                   v-model:value="searchData.cup"
                   :options="cupOptions"
-                  class="w-26"
+                  class="w-24"
                   :placeholder="$t('page.actress.cup')"
                   clearable />
               </NFormItem>
@@ -146,14 +146,14 @@ onMounted(() => {
                 <NSelect
                   v-model:value="searchData.sort"
                   :options="sortOptions"
-                  class="w-28"
+                  class="w-26"
                   @update:value="handleSearch" />
               </NFormItem>
               <NFormItem>
                 <NSelect
                   v-model:value="searchData.sortRule"
                   :options="sortRuleOptions"
-                  class="w-26"
+                  class="w-24"
                   @update:value="handleSearch" />
               </NFormItem>
               <NFormItem :label="$t('page.actress.face')">
@@ -195,9 +195,11 @@ onMounted(() => {
     <NPagination
       v-model:page="searchData.page"
       v-model:page-size="searchData.pageSize"
+      class="ma-auto"
       :page-count="pageCount"
       show-size-picker
       :page-sizes="pageSizeOptions"
+      simple
       @update-page="handleSearch"
       @update-page-size="handleSearch" />
   </NFlex>

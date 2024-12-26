@@ -52,7 +52,7 @@ const searchData = ref<Dto.MovieSearchOption>({
   viewCount: 0,
   sort: 'createdTime',
   sortRule: 'DESC',
-  pageSize: 20,
+  pageSize: 30,
   page: 1
 })
 const movieData = ref<Array<Dto.DbMovie>>([])
@@ -121,7 +121,7 @@ onMounted(() => {
     <NCard :bordered="false" class="relative z-4 w-auto rd-12px">
       <NCollapse :default-expanded-names="[]">
         <NCollapseItem :title="$t('common.search')" name="1">
-          <NForm label-placement="left" :label-width="70" require-mark-placement="right-hanging" size="small">
+          <NForm label-placement="left" :label-width="54" require-mark-placement="right-hanging" size="small">
             <NFormItem :label="$t('page.library.type')" class="hidden h-10">
               <NCheckboxGroup v-model:value="searchData.type">
                 <NSpace item-style="display: flex;" align="center">
@@ -131,7 +131,7 @@ onMounted(() => {
                 </NSpace>
               </NCheckboxGroup>
             </NFormItem>
-            <NFormItem v-show="typeOptions.length > 0" :label="$t('page.library.tags')" class="h-10">
+            <NFormItem v-show="typeOptions.length > 0" :label="$t('page.library.tags')" class="hidden h-10">
               <NCheckboxGroup v-model:value="searchData.tags">
                 <NSpace item-style="display: flex;" align="center">
                   <NCheckbox v-for="tag in typeOptions" :key="tag.id" :value="tag.key" :label="tag.key" />
@@ -169,7 +169,7 @@ onMounted(() => {
                 <NSelect
                   v-model:value="searchData.sort"
                   :options="sortOptions"
-                  class="w-28"
+                  class="w-26"
                   @update:value="handleSearch" />
               </NFormItem>
               <NFormItem>
@@ -199,14 +199,12 @@ onMounted(() => {
                   {{ $t('common.reset') }}
                 </NButton>
               </NFormItem>
-              <NFormItem>
-                <NButton type="warning" @click="updateLibrary">
-                  {{ $t('page.library.updateLibrary') }}
-                </NButton>
-              </NFormItem>
             </NSpace>
             <NFormItem>
               <NText>{{ '共找到 ' + totalCount + ' 部影片' }}</NText>
+              <NButton type="warning" class="ml-2" @click="updateLibrary">
+                {{ $t('page.library.updateLibrary') }}
+              </NButton>
             </NFormItem>
           </NForm>
         </NCollapseItem>
@@ -233,6 +231,8 @@ onMounted(() => {
       v-model:page-size="searchData.pageSize"
       :page-count="pageCount"
       show-size-picker
+      simple
+      class="ma-auto"
       :page-sizes="pageSizeOptions"
       @update-page="handleSearch"
       @update-page-size="handleSearch" />

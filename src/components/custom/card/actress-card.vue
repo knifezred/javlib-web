@@ -42,12 +42,12 @@ watch(
   <NCard
     :bordered="false"
     size="small"
-    class="relative z-4 w-26 rd-md text-center transition-transform duration-300 hover:transform-translate-y--2"
+    class="relative z-4 w-24 rd-md text-center transition-transform duration-300 hover:transform-translate-y--2"
     hoverable>
     <template #cover>
       <img
         :src="appStore.baseURL + actress.avatar"
-        class="max-h-26 cursor-pointer object-cover object-top"
+        class="max-h-24 cursor-pointer object-cover object-top"
         @click="showDetail(actress)" />
     </template>
     <NP class="line-clamp-1 ma-0 cursor-pointer pt-1" @click="showDetail(actress)">

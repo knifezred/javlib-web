@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import { useAppStore } from '@/store/modules/app'
 import CardData from './modules/card-data.vue'
-import ActressChart from './modules/actress-chart.vue'
 import PieChart from './modules/pie-chart.vue'
 
 const appStore = useAppStore()
@@ -17,11 +16,6 @@ const gap = computed(() => (appStore.isMobile ? 0 : 16))
       <NGi span="24 s:24 m:10">
         <NCard :bordered="false" class="card-wrapper">
           <PieChart />
-        </NCard>
-      </NGi>
-      <NGi span="24 s:24 m:14">
-        <NCard :bordered="false" class="card-wrapper">
-          <ActressChart />
         </NCard>
       </NGi>
     </NGrid>

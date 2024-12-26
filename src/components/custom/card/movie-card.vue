@@ -36,7 +36,7 @@ watch(
 </script>
 
 <template>
-  <NCard :bordered="false" size="small" class="relative z-4 max-w-30 rd-12px text-center" hoverable>
+  <NCard :bordered="false" size="small" class="relative z-4 max-w-24 rd-12px text-center" hoverable>
     <template #cover>
       <img
         :src="appStore.baseURL + movie.poster"
@@ -44,11 +44,17 @@ watch(
         @click="showMovieInfo(movie)" />
     </template>
     <NP class="line-clamp-1 ma-0 cursor-pointer pt-1" @click="showMovieInfo(movie)">
-      {{ movie.title }}
+      {{ movie.num }}
     </NP>
-    <NP v-if="sort != 'personalScore' && showSecondTitle" depth="3" class="mt-1">
+    <NP v-if="sort != 'personalScore' && showSecondTitle" depth="3" class="my-0 text-10px">
       {{ sortText }}
     </NP>
-    <NRate v-else-if="showSecondTitle" :value="movie.personalScore" allow-half readonly size="small" class="mt-1" />
+    <NRate
+      v-else-if="showSecondTitle"
+      :value="movie.personalScore"
+      allow-half
+      readonly
+      :size="10"
+      class="mx-auto my-0" />
   </NCard>
 </template>

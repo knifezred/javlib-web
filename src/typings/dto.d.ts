@@ -338,6 +338,7 @@ declare namespace Dto {
     createdTime?: number
     updatedTime?: number
   }
+  type DbStorageList = Api.Common.PaginatingQueryRecord<DbStorage>
 
   type MovieSearchOption = {
     tags?: string[] | null

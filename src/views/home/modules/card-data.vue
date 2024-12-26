@@ -124,13 +124,13 @@ function goPage(key: string) {
     </DefineGradientBg>
     <!-- define component end: GradientBg -->
 
-    <NGrid cols="xs:2 s:2 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
+    <NGrid cols="s:1 m:2 l:4" responsive="screen" :x-gap="8" :y-gap="8">
       <NGi v-for="item in cardData" :key="item.key" @click="goPage(item.key)">
         <GradientBg :gradient-color="getGradientColor(item.color)" class="flex-1">
           <h3 class="text-16px">{{ item.title }}</h3>
-          <div class="flex justify-between pt-12px">
-            <SvgIcon :icon="item.icon" class="text-32px" />
-            <CountTo :start-value="1" :end-value="item.value" :suffix="item.unit" class="text-30px text-white" />
+          <div class="flex justify-between py-3">
+            <SvgIcon :icon="item.icon" class="text-8" />
+            <CountTo :start-value="1" :end-value="item.value" :suffix="item.unit" class="text-5 text-white" />
           </div>
         </GradientBg>
       </NGi>
