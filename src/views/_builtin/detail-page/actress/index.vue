@@ -152,7 +152,7 @@ function updateActressAvatar(poster: string) {
     </NGi>
     <NGi :span="2">
       <NCard title="TA的作品">
-        <NSpace>
+        <NSpace justify="center">
           <MovieCard
             v-for="movie in movies"
             :key="movie.id"
@@ -164,7 +164,8 @@ function updateActressAvatar(poster: string) {
         <NPagination
           v-model:page="searchData.page"
           v-model:page-size="searchData.pageSize"
-          class="mt-lg"
+          class="ma-auto pt-4"
+          simple
           :page-count="pageCount"
           show-size-picker
           :page-sizes="pageSizeOptions"
@@ -201,4 +202,11 @@ function updateActressAvatar(poster: string) {
   </NGrid>
 </template>
 
-<style scoped></style>
+<style>
+/* .n-statistic__label {
+  font-size: 0.7rem !important;
+} */
+.n-statistic-value__content {
+  font-size: 0.8rem !important;
+}
+</style>

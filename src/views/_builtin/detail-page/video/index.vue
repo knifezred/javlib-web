@@ -103,13 +103,6 @@ function deleteMovieFile() {
   deleteMovie(info.value).then(() => {
     routerBack()
   })
-  // const files = info.value.file.split(',').filter(x => x.length > 0)
-  // files.forEach(file => {
-  //   window.api.deleteFile(file)
-  // })
-  // info.value.isDelete = true
-  // info.value.fileSize = 0
-  // updateMovie(info.value)
 }
 
 function goCategoryPage(item: string, type: string) {
@@ -322,36 +315,27 @@ onMounted(() => {
         </NGi>
         <NGi v-if="relatedMovies.length > 0" class="z-3 mt-xl" :span="5">
           <NH4 depth="3" class="mb-lg text-light-9">相关推荐</NH4>
-          <NSpace>
-            <MovieCard
-              v-for="movie in relatedMovies"
-              :key="movie.id"
-              :movie="movie"
-              :show-second-title="false"
-              sort="score"></MovieCard>
-          </NSpace>
+          <NCarousel class="z-3" slides-per-view="auto" :space-between="8" :show-dots="false" draggable>
+            <NCarouselItem v-for="movie in relatedMovies" :key="movie.name" class="w-auto" style="width: 120px">
+              <MovieCard :movie="movie" :show-second-title="false" sort="score"></MovieCard>
+            </NCarouselItem>
+          </NCarousel>
         </NGi>
         <NGi v-if="seriesMovies.length > 0" class="z-3 mt-xl" :span="5">
           <NH4 depth="3" class="mb-lg text-light-9">同系列影片</NH4>
-          <NSpace>
-            <MovieCard
-              v-for="movie in seriesMovies"
-              :key="movie.id"
-              :movie="movie"
-              :show-second-title="false"
-              sort="score"></MovieCard>
-          </NSpace>
+          <NCarousel class="z-3" slides-per-view="auto" :space-between="8" :show-dots="false" draggable>
+            <NCarouselItem v-for="movie in seriesMovies" :key="movie.name" class="w-auto" style="width: 120px">
+              <MovieCard :movie="movie" :show-second-title="false" sort="score"></MovieCard>
+            </NCarouselItem>
+          </NCarousel>
         </NGi>
         <NGi v-if="recommendedTagMovies.length > 0" class="z-3 mt-xl" :span="5">
           <NH4 depth="3" class="mb-lg text-light-9">更多 {{ recommendedTag }} 影片</NH4>
-          <NSpace>
-            <MovieCard
-              v-for="movie in recommendedTagMovies"
-              :key="movie.id"
-              :movie="movie"
-              :show-second-title="false"
-              sort="score"></MovieCard>
-          </NSpace>
+          <NCarousel class="z-3" slides-per-view="auto" :space-between="8" :show-dots="false" draggable>
+            <NCarouselItem v-for="movie in recommendedTagMovies" :key="movie.name" class="w-auto" style="width: 120px">
+              <MovieCard :movie="movie" :show-second-title="false" sort="score"></MovieCard>
+            </NCarouselItem>
+          </NCarousel>
         </NGi>
       </NGrid>
     </NCard>

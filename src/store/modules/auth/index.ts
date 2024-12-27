@@ -68,7 +68,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
     // const { data: loginToken, error } = await fetchLogin(userName, password);
     appStore.setBaseUrl(userName)
-    if (password === 'rEt25472A2eb5tai47') {
+
+    if (password === import.meta.env.VITE_LOGIN_TOKEN) {
       // const pass = await loginByToken(loginToken);
       const pass = true
       localStg.set('token', appStore.getBaseUrl())

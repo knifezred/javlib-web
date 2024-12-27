@@ -74,6 +74,8 @@ onMounted(() => {
           v-model:page-size="searchData.pageSize"
           :page-count="pageCount"
           show-size-picker
+          class="ma-auto"
+          simple
           :page-sizes="pageSizeOptions"
           @update-page="handleSearch"
           @update-page-size="handleSearch" />

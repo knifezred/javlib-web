@@ -1,37 +1,37 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { GLOBAL_HEADER_MENU_ID, GLOBAL_SIDER_MENU_ID } from '@/constants/app';
-import { useAppStore } from '@/store/modules/app';
-import { useThemeStore } from '@/store/modules/theme';
-import { useRouterPush } from '@/hooks/common/router';
-import FirstLevelMenu from '../components/first-level-menu.vue';
-import { useMixMenuContext } from '../../../context';
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { GLOBAL_HEADER_MENU_ID, GLOBAL_SIDER_MENU_ID } from '@/constants/app'
+import { useAppStore } from '@/store/modules/app'
+import { useThemeStore } from '@/store/modules/theme'
+import { useRouterPush } from '@/hooks/common/router'
+import FirstLevelMenu from '../components/first-level-menu.vue'
+import { useMixMenuContext } from '../../../context'
 
 defineOptions({
   name: 'HorizontalMixMenu'
-});
+})
 
-const route = useRoute();
-const appStore = useAppStore();
-const themeStore = useThemeStore();
-const { allMenus, childLevelMenus, activeFirstLevelMenuKey, setActiveFirstLevelMenuKey } = useMixMenuContext();
-const { routerPushByKeyWithMetaQuery } = useRouterPush();
+const route = useRoute()
+const appStore = useAppStore()
+const themeStore = useThemeStore()
+const { allMenus, childLevelMenus, activeFirstLevelMenuKey, setActiveFirstLevelMenuKey } = useMixMenuContext()
+const { routerPushByKeyWithMetaQuery } = useRouterPush()
 
 const selectedKey = computed(() => {
-  const { hideInMenu, activeMenu } = route.meta;
-  const name = route.name as string;
+  const { hideInMenu, activeMenu } = route.meta
+  const name = route.name as string
 
-  const routeName = (hideInMenu ? activeMenu : name) || name;
+  const routeName = (hideInMenu ? activeMenu : name) || name
 
-  return routeName;
-});
+  return routeName
+})
 
 function handleSelectMixMenu(menu: App.Global.Menu) {
-  setActiveFirstLevelMenuKey(menu.key);
+  setActiveFirstLevelMenuKey(menu.key)
 
   if (!menu.children?.length) {
-    routerPushByKeyWithMetaQuery(menu.routeKey);
+    routerPushByKeyWithMetaQuery(menu.routeKey)
   }
 }
 </script>
@@ -44,8 +44,7 @@ function handleSelectMixMenu(menu: App.Global.Menu) {
       :options="childLevelMenus"
       :indent="18"
       responsive
-      @update:value="routerPushByKeyWithMetaQuery"
-    />
+      @update:value="routerPushByKeyWithMetaQuery" />
   </Teleport>
   <Teleport :to="`#${GLOBAL_SIDER_MENU_ID}`">
     <FirstLevelMenu
@@ -55,8 +54,7 @@ function handleSelectMixMenu(menu: App.Global.Menu) {
       :dark-mode="themeStore.darkMode"
       :theme-color="themeStore.themeColor"
       @select="handleSelectMixMenu"
-      @toggle-sider-collapse="appStore.toggleSiderCollapse"
-    />
+      @toggle-sider-collapse="appStore.toggleSiderCollapse" />
   </Teleport>
 </template>
 

@@ -1,66 +1,66 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import type { RouteKey } from '@elegant-router/types';
-import { SimpleScrollbar } from '@sa/materials';
-import { GLOBAL_HEADER_MENU_ID, GLOBAL_SIDER_MENU_ID } from '@/constants/app';
-import { useAppStore } from '@/store/modules/app';
-import { useThemeStore } from '@/store/modules/theme';
-import { useRouteStore } from '@/store/modules/route';
-import { useRouterPush } from '@/hooks/common/router';
-import { useMixMenuContext } from '../../../context';
+import { computed, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import type { RouteKey } from '@elegant-router/types'
+import { SimpleScrollbar } from '@sa/materials'
+import { GLOBAL_HEADER_MENU_ID, GLOBAL_SIDER_MENU_ID } from '@/constants/app'
+import { useAppStore } from '@/store/modules/app'
+import { useThemeStore } from '@/store/modules/theme'
+import { useRouteStore } from '@/store/modules/route'
+import { useRouterPush } from '@/hooks/common/router'
+import { useMixMenuContext } from '../../../context'
 
 defineOptions({
   name: 'ReversedHorizontalMixMenu'
-});
+})
 
-const route = useRoute();
-const appStore = useAppStore();
-const themeStore = useThemeStore();
-const routeStore = useRouteStore();
+const route = useRoute()
+const appStore = useAppStore()
+const themeStore = useThemeStore()
+const routeStore = useRouteStore()
 const {
   firstLevelMenus,
   childLevelMenus,
   activeFirstLevelMenuKey,
   setActiveFirstLevelMenuKey,
   isActiveFirstLevelMenuHasChildren
-} = useMixMenuContext();
-const { routerPushByKeyWithMetaQuery } = useRouterPush();
+} = useMixMenuContext()
+const { routerPushByKeyWithMetaQuery } = useRouterPush()
 
 const selectedKey = computed(() => {
-  const { hideInMenu, activeMenu } = route.meta;
-  const name = route.name as string;
+  const { hideInMenu, activeMenu } = route.meta
+  const name = route.name as string
 
-  const routeName = (hideInMenu ? activeMenu : name) || name;
+  const routeName = (hideInMenu ? activeMenu : name) || name
 
-  return routeName;
-});
+  return routeName
+})
 
 function handleSelectMixMenu(key: RouteKey) {
-  setActiveFirstLevelMenuKey(key);
+  setActiveFirstLevelMenuKey(key)
 
   if (!isActiveFirstLevelMenuHasChildren.value) {
-    routerPushByKeyWithMetaQuery(key);
+    routerPushByKeyWithMetaQuery(key)
   }
 }
 
-const expandedKeys = ref<string[]>([]);
+const expandedKeys = ref<string[]>([])
 
 function updateExpandedKeys() {
   if (appStore.siderCollapse || !selectedKey.value) {
-    expandedKeys.value = [];
-    return;
+    expandedKeys.value = []
+    return
   }
-  expandedKeys.value = routeStore.getSelectedMenuKeyPath(selectedKey.value);
+  expandedKeys.value = routeStore.getSelectedMenuKeyPath(selectedKey.value)
 }
 
 watch(
   () => route.name,
   () => {
-    updateExpandedKeys();
+    updateExpandedKeys()
   },
   { immediate: true }
-);
+)
 </script>
 
 <template>
@@ -71,8 +71,7 @@ watch(
       :options="firstLevelMenus"
       :indent="18"
       responsive
-      @update:value="handleSelectMixMenu"
-    />
+      @update:value="handleSelectMixMenu" />
   </Teleport>
   <Teleport :to="`#${GLOBAL_SIDER_MENU_ID}`">
     <SimpleScrollbar>
@@ -85,8 +84,7 @@ watch(
         :collapsed-icon-size="22"
         :options="childLevelMenus"
         :indent="18"
-        @update:value="routerPushByKeyWithMetaQuery"
-      />
+        @update:value="routerPushByKeyWithMetaQuery" />
     </SimpleScrollbar>
   </Teleport>
 </template>
