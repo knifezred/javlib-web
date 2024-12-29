@@ -307,32 +307,32 @@ onMounted(() => {
             {{ info.introduction }}
           </NEllipsis>
           <NH4 depth="3" class="mb-lg text-light-9">演员列表</NH4>
-          <NCarousel class="z-3" slides-per-view="auto" :space-between="8" :show-dots="false" draggable>
-            <NCarouselItem v-for="actor in actressList" :key="actor.name" class="w-auto" style="width: 100px">
+          <NCarousel class="z-3" :slides-per-view="3" :show-dots="false" draggable>
+            <NCarouselItem v-for="actor in actressList" :key="actor.name" class="w-auto">
               <ActressCard :show-second-title="false" :actress="actor" sort="score" class="mt-2"></ActressCard>
             </NCarouselItem>
           </NCarousel>
         </NGi>
         <NGi v-if="relatedMovies.length > 0" class="z-3 mt-xl" :span="5">
           <NH4 depth="3" class="mb-lg text-light-9">相关推荐</NH4>
-          <NCarousel class="z-3" slides-per-view="auto" :space-between="8" :show-dots="false" draggable>
-            <NCarouselItem v-for="movie in relatedMovies" :key="movie.name" class="w-auto" style="width: 120px">
+          <NCarousel class="z-10" :slides-per-view="3" :show-dots="false" draggable>
+            <NCarouselItem v-for="movie in relatedMovies" :key="movie.name" class="w-auto">
               <MovieCard :movie="movie" :show-second-title="false" sort="score"></MovieCard>
             </NCarouselItem>
           </NCarousel>
         </NGi>
         <NGi v-if="seriesMovies.length > 0" class="z-3 mt-xl" :span="5">
           <NH4 depth="3" class="mb-lg text-light-9">同系列影片</NH4>
-          <NCarousel class="z-3" slides-per-view="auto" :space-between="8" :show-dots="false" draggable>
-            <NCarouselItem v-for="movie in seriesMovies" :key="movie.name" class="w-auto" style="width: 120px">
+          <NCarousel class="z-10" :slides-per-view="3" :show-dots="false" draggable>
+            <NCarouselItem v-for="movie in seriesMovies" :key="movie.name" class="w-auto">
               <MovieCard :movie="movie" :show-second-title="false" sort="score"></MovieCard>
             </NCarouselItem>
           </NCarousel>
         </NGi>
-        <NGi v-if="recommendedTagMovies.length > 0" class="z-3 mt-xl" :span="5">
+        <NGi v-if="recommendedTagMovies.length > 0" class="mt-xl" :span="5">
           <NH4 depth="3" class="mb-lg text-light-9">更多 {{ recommendedTag }} 影片</NH4>
-          <NCarousel class="z-3" slides-per-view="auto" :space-between="8" :show-dots="false" draggable>
-            <NCarouselItem v-for="movie in recommendedTagMovies" :key="movie.name" class="w-auto" style="width: 120px">
+          <NCarousel class="z-10" :slides-per-view="3" :show-dots="false" draggable>
+            <NCarouselItem v-for="movie in recommendedTagMovies" :key="movie.name" class="w-auto">
               <MovieCard :movie="movie" :show-second-title="false" sort="score"></MovieCard>
             </NCarouselItem>
           </NCarousel>

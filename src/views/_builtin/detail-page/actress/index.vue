@@ -151,27 +151,26 @@ function updateActressAvatar(poster: string) {
       </NPageHeader>
     </NGi>
     <NGi :span="2">
-      <NCard title="TA的作品">
-        <NSpace justify="center">
-          <MovieCard
-            v-for="movie in movies"
-            :key="movie.id"
-            :movie="movie"
-            :show-second-title="false"
-            :sort="searchData.sort"></MovieCard>
-        </NSpace>
+      <NH2 class="ml-2">TA的作品</NH2>
+      <NSpace justify="center">
+        <MovieCard
+          v-for="movie in movies"
+          :key="movie.id"
+          :movie="movie"
+          :show-second-title="false"
+          :sort="searchData.sort"></MovieCard>
+      </NSpace>
 
-        <NPagination
-          v-model:page="searchData.page"
-          v-model:page-size="searchData.pageSize"
-          class="ma-auto pt-4"
-          simple
-          :page-count="pageCount"
-          show-size-picker
-          :page-sizes="pageSizeOptions"
-          @update-page="handleSearch"
-          @update-page-size="handleSearch" />
-      </NCard>
+      <NPagination
+        v-model:page="searchData.page"
+        v-model:page-size="searchData.pageSize"
+        class="ma-auto pt-4"
+        simple
+        :page-count="pageCount"
+        show-size-picker
+        :page-sizes="pageSizeOptions"
+        @update-page="handleSearch"
+        @update-page-size="handleSearch" />
     </NGi>
     <NGi :span="2">
       <NModal v-model:show="showModal" class="h-auto w-5xl!" preset="dialog" title="Dialog">
@@ -191,7 +190,8 @@ function updateActressAvatar(poster: string) {
         <NPagination
           v-model:page="searchData.page"
           v-model:page-size="searchData.pageSize"
-          class="mt-lg"
+          class="ma-auto"
+          simple
           :page-count="pageCount"
           show-size-picker
           :page-sizes="pageSizeOptions"

@@ -43,7 +43,7 @@ watch(
   () => route.name,
   () => {
     updateExpandedKeys()
-    appStore.toggleSiderCollapse()
+    appStore.setSiderCollapse(true)
   },
   { immediate: true }
 )
