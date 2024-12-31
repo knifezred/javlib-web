@@ -61,7 +61,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <NCard class="ma-0 rd-0 pa-0" :bordered="false" :title="title" closable @close="routerBack">
+  <NCard class="ma-0 rd-0 pa-0" content-class="pa-0" :bordered="false" :title="title" closable @close="routerBack">
     <div id="mse"></div>
     <NSpace class="mt-2">
       <NTag

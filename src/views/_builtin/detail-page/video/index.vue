@@ -232,37 +232,35 @@ onMounted(() => {
           </NCard>
         </NGi>
         <NGi :span="3">
-          <NH1 class="line-clamp-1 my-sm text-2xl text-white">
+          <NH1 class="line-clamp-2 my-sm text-xl text-white">
             {{ info.title }}
           </NH1>
           <NP class="my-sm">
-            <NText class="z-3 inline-block w-18 text-2xl color-#F9A11E">{{ info.score }}分</NText>
+            <NText class="z-3 inline-block text-xl color-#F9A11E">{{ info.score }}分</NText>
           </NP>
           <NP class="my-sm">
             <NRate v-model:value="info.personalScore" allow-half :count="5" @update:value="setPersonalScore" />
           </NP>
           <!-- <n-p depth="3" class="my-0 text-lg mx-1">{{ info.originTitle }} </n-p> -->
-          <NP class="my-0 text-sm">
+          <NP class="my-0">
             <NText class="z-3 mr-1 inline-block text-sm text-#A4A6A7">
               {{ info.year }}
             </NText>
-            <NText class="z-3 mx-1 inline-block text-#A4A6A7">
-              | 大小：
-              {{ (info.fileSize / 1000 / 1000 / 1000).toFixed(2) + ' GB' }}
+            <NText class="z-3 mx-1 inline-block text-sm text-#A4A6A7">
+              {{ ' | ' + (info.fileSize / 1000 / 1000 / 1000).toFixed(2) + ' GB' }}
             </NText>
           </NP>
-          <NP class="my-0 text-sm">
-            <NText v-if="info.studio.length > 0" class="z-3 mx-1 inline-block text-#A4A6A7">
-              厂商：
-              <NText
-                depth="3"
-                class="z-3 cursor-pointer text-#A4A6A7 hover:color-primary"
-                @click="goCategoryPage(info.studio, 'studio')">
-                {{ info.studio }}
-              </NText>
+          <NP v-if="info.studio.length > 0" class="my-0 inline-block text-#A4A6A7">
+            <NText
+              depth="3"
+              class="z-3 cursor-pointer text-#A4A6A7 hover:color-primary"
+              @click="goCategoryPage(info.studio, 'studio')">
+              {{ '厂商: ' + info.studio }}
             </NText>
-            <NText v-if="info.director.length > 0" class="z-3 mx-1 inline-block text-#A4A6A7">
-              | 导演：{{ info.director }}
+          </NP>
+          <NP class="my-0">
+            <NText v-if="info.director.length > 0" class="z-3 mx-1 inline-block text-sm text-#A4A6A7">
+              {{ '导演: ' + info.director }}
             </NText>
           </NP>
         </NGi>

@@ -132,7 +132,7 @@ onMounted(() => {
             </NIcon>
           </template>
         </NEmpty>
-        <NSpace class="ma-4" justify="center">
+        <NSpace class="mt-4" justify="center">
           <MovieCard
             v-for="movie in favoritesData.movie"
             :key="movie.file"
@@ -149,7 +149,7 @@ onMounted(() => {
             </NIcon>
           </template>
         </NEmpty>
-        <NSpace class="ma-4" justify="center">
+        <NSpace class="mt-4" justify="center">
           <ActressCard
             v-for="actress in favoritesData.actress"
             :key="actress.name"
