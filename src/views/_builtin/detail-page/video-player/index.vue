@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onBeforeMount, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Player from 'xgplayer'
 import { useAppStore } from '@/store/modules/app'
 import { useRouterPush } from '@/hooks/common/router'
 import 'xgplayer/dist/index.min.css'
+import { router } from '@/router'
 
 defineOptions({
   name: 'VideoPlayerPage'
@@ -34,6 +35,7 @@ const movieFiles = ref<Array<string>>([])
 watch(
   () => route.query.file,
   () => {
+    router.currentRoute.value.meta.title = route.query.title as string
     updateMovieFiles()
   },
   { immediate: true }
@@ -45,6 +47,9 @@ function updateMovieFiles() {
     .split('|')
     .filter(x => x.length > 0)
 }
+onBeforeMount(() => {
+  router.currentRoute.value.meta.title = route.query.title as string
+})
 onMounted(() => {
   updateMovieFiles()
   player.value = new Player({
