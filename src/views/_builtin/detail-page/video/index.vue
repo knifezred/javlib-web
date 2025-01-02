@@ -67,13 +67,15 @@ function playVideo() {
 }
 
 function setViewed() {
-  info.value.viewCount++
   // 更新播放次数
+  info.value.viewCount++
+  info.value.viewTime = Date.now()
   updateMovie(info.value)
 }
 
 function setFavorite() {
   info.value.favorite = !info.value.favorite
+  info.value.favoriteTime = Date.now()
   updateMovie(info.value).then(res => {
     if (res.data) {
       window.$message?.success(info.value.favorite ? $t('common.addFavorite') : $t('common.removeFavorite'))
@@ -129,17 +131,20 @@ function getRelatedMovies() {
 
 const seriesMovies = ref<Array<Dto.DbMovie>>([])
 function getSeriesMovies() {
-  fetchMoviePagedList({
-    series: info.value.series,
-    page: 1,
-    pageSize: 10,
-    sort: 'id',
-    sortRule: 'RAND'
-  }).then(res => {
-    if (res.data) {
-      seriesMovies.value = res.data.records.filter(x => x.num !== info.value.num)
-    }
-  })
+  seriesMovies.value = []
+  if (info.value.series.trim().length > 0) {
+    fetchMoviePagedList({
+      series: info.value.series,
+      page: 1,
+      pageSize: 10,
+      sort: 'id',
+      sortRule: 'RAND'
+    }).then(res => {
+      if (res.data) {
+        seriesMovies.value = res.data.records.filter(x => x.num !== info.value.num)
+      }
+    })
+  }
 }
 
 const recommendedTag = ref('')
@@ -251,15 +256,12 @@ onMounted(() => {
             </NText>
           </NP>
           <NP v-if="info.studio.length > 0" class="my-0 inline-block text-#A4A6A7">
-            <NText
-              depth="3"
-              class="z-3 cursor-pointer text-#A4A6A7 hover:color-primary"
-              @click="goCategoryPage(info.studio, 'studio')">
+            <NText depth="3" class="z-3 cursor-pointer text-#A4A6A7" @click="goCategoryPage(info.studio, 'studio')">
               {{ '厂商: ' + info.studio }}
             </NText>
           </NP>
           <NP class="my-0">
-            <NText v-if="info.director.length > 0" class="z-3 mx-1 inline-block text-sm text-#A4A6A7">
+            <NText v-if="info.director.length > 0" class="z-3 inline-block text-sm text-#A4A6A7">
               {{ '导演: ' + info.director }}
             </NText>
           </NP>
@@ -312,7 +314,7 @@ onMounted(() => {
           </NCarousel>
         </NGi>
         <NGi v-if="relatedMovies.length > 0" class="z-3 mt-xl" :span="5">
-          <NH4 depth="3" class="mb-lg text-light-9">相关推荐</NH4>
+          <NH4 depth="3" class="mb-lg text-light-9">推荐影片</NH4>
           <NCarousel class="z-10" :slides-per-view="3" :show-dots="false" draggable>
             <NCarouselItem v-for="movie in relatedMovies" :key="movie.name" class="w-auto">
               <MovieCard :movie="movie" :show-second-title="false" sort="score"></MovieCard>
@@ -320,7 +322,9 @@ onMounted(() => {
           </NCarousel>
         </NGi>
         <NGi v-if="seriesMovies.length > 0" class="z-3 mt-xl" :span="5">
-          <NH4 depth="3" class="mb-lg text-light-9">同系列影片</NH4>
+          <NH4 depth="3" class="mb-lg text-light-9" @click="goCategoryPage(info.series, 'series')">
+            同系列{{ info.series }}影片
+          </NH4>
           <NCarousel class="z-10" :slides-per-view="3" :show-dots="false" draggable>
             <NCarouselItem v-for="movie in seriesMovies" :key="movie.name" class="w-auto">
               <MovieCard :movie="movie" :show-second-title="false" sort="score"></MovieCard>
@@ -328,7 +332,9 @@ onMounted(() => {
           </NCarousel>
         </NGi>
         <NGi v-if="recommendedTagMovies.length > 0" class="mt-xl" :span="5">
-          <NH4 depth="3" class="mb-lg text-light-9">更多 {{ recommendedTag }} 影片</NH4>
+          <NH4 depth="3" class="mb-lg text-light-9" @click="goCategoryPage(recommendedTag, 'tags')">
+            更多 {{ recommendedTag }} 影片
+          </NH4>
           <NCarousel class="z-10" :slides-per-view="3" :show-dots="false" draggable>
             <NCarouselItem v-for="movie in recommendedTagMovies" :key="movie.name" class="w-auto">
               <MovieCard :movie="movie" :show-second-title="false" sort="score"></MovieCard>

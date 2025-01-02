@@ -45,6 +45,11 @@ function handleSearch(tab: string) {
     currentTab: currentTab.value,
     searchData: searchData.value
   })
+  if (currentTab.value === 'movie') {
+    searchData.value.sort = 'favoriteTime'
+  } else {
+    searchData.value.sort = 'updatedTime'
+  }
   switch (currentTab.value) {
     case 'movie':
       showPagination.value = true
