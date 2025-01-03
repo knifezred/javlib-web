@@ -54,6 +54,7 @@ onMounted(() => {
   player.value = new Player({
     id: 'mse',
     url: `${appStore.baseURL}/${movieFiles.value[0]}`,
+    poster: `${appStore.baseURL}/${route.query.poster}`,
     fluid: true,
     autoplay: true,
     closeVideoDblclick: true

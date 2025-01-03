@@ -61,6 +61,7 @@ function playVideo() {
   routerPushByKey('detail-page_video-player', {
     query: {
       file: info.value.file,
+      poster: info.value.cover,
       title: info.value.title
     }
   })
