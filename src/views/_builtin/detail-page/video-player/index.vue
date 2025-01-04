@@ -57,7 +57,8 @@ onMounted(() => {
     poster: `${appStore.baseURL}/${route.query.poster}`,
     fluid: true,
     autoplay: true,
-    closeVideoDblclick: true
+    closeVideoDblclick: true,
+    rotate: true
   })
 })
 onUnmounted(() => {

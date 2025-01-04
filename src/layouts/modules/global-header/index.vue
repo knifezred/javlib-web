@@ -37,7 +37,7 @@ const { isFullscreen, toggle } = useFullscreen()
       <GlobalBreadcrumb v-if="!appStore.isMobile" class="ml-12px" />
     </div>
     <div class="h-full flex-y-center justify-end">
-      <FullScreen :full="isFullscreen" @click="toggle" />
+      <FullScreen v-if="false" :full="isFullscreen" @click="toggle" />
       <LangSwitch
         v-if="false"
         :lang="appStore.locale"
